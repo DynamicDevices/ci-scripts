@@ -11,6 +11,10 @@ dns_base=$(echo $H_RUN_URL | cut -d/ -f3 | sed -e 's/api.//')
 hub_fio="hub.${dns_base}"
 
 function docker_login {
+        PASSWORD=`cat /secrets/docker_hub_password`
+	status "Logging into Docker Hub with password ${PASSWORD}"
+	docker login -u ajlennon -p "${PASSWORD}"
+
 	status "hub url is: $hub_fio"
 	status "Doing docker-login to ${hub_fio} with secret"
 	docker login ${hub_fio} --username=doesntmatter --password=$(cat /secrets/osftok) | indent
